@@ -22,6 +22,7 @@ with sqlite3.connect("data.db") as conexion:
 
 pygame.init()
 
+
 imagen=pygame.image.load("menu\\nombre.png") 
 imagen= pygame.transform.scale(imagen,(ALTO_VENTANA,ANCHO_VENTANA))
 
