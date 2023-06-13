@@ -3,7 +3,7 @@ import pygame
 ANCHO_VENTANA=600 
 ALTO_VENTANA=600
 
-pygame.init()
+pygame.init() 
 imagen=pygame.image.load("menu\\menu.png") 
 imagen= pygame.transform.scale(imagen,(ALTO_VENTANA,ANCHO_VENTANA))
 

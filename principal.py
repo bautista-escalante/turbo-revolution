@@ -1,6 +1,7 @@
 import pygame 
 import colores 
 from objetos import Obstaculo 
+from objetos import vida
 import random
 import sqlite3
 
@@ -11,14 +12,8 @@ TAMAÑO_AUTO=(80,80)
 posicion_auto=[200,550] 
 linea1=[255,0,5,ALTO] 
 linea2=[245,0,5,ALTO] 
-cantidad_vidas =3 
 FPS=120
 minutos=00
-
-imagen2="imagen\\auto2.png" 
-imagen3="imagen\\auto3.png" 
-imagen_muro="imagen\\muro.png" 
-imagen_mancha ="imagen\\mancha.png"
 
 pygame.init() 
 pygame.mixer.init()
@@ -27,36 +22,35 @@ auto1= pygame.transform.scale(auto1,TAMAÑO_AUTO)
 #### texto ####
 fuente= pygame.font.SysFont("arias",40)
 #### objetos #### 
-auto2=Obstaculo(TAMAÑO_AUTO,ANCHO,ALTO,3,imagen2 ) 
-auto3=Obstaculo(TAMAÑO_AUTO,ANCHO,ALTO,5,imagen3)  
-muro=Obstaculo((100,70),ANCHO,ALTO,3,imagen_muro) 
-mancha=Obstaculo((40,40),ANCHO,ALTO,3,imagen_mancha) 
+auto2=Obstaculo(TAMAÑO_AUTO,ANCHO,ALTO,3 ) 
+auto3=Obstaculo(TAMAÑO_AUTO,ANCHO,ALTO,5)  
+muro=Obstaculo((100,70),ANCHO,ALTO,3) 
+mancha=Obstaculo((40,40),ANCHO,ALTO,3,) 
+vidas=vida("imagen\\corazon.png",(20,30),3)
 #### posiciones iniciales####  
 posicion2=auto2.crear_posicion() 
 posicion3=auto3.crear_posicion() 
 posicion4=muro.crear_posicion()  
 posicion5=mancha.crear_posicion()
-#### imagenes #### 
-imagen_auto2=auto2.crear_imagen(imagen2) 
-imagen_auto3=auto3.crear_imagen(imagen3) 
-imagen_muro=muro.crear_imagen(imagen_muro)
-imagen_mancha=mancha.crear_imagen(imagen_muro)
+##### cantidad de vidas ####
+lista_vida = vidas.crear_lista(3) 
+cantidad_vidas=3 
 ### rect ###  
 rect1= auto1.get_rect()
-rect2= auto2.crear_rect()
-rect3= auto3.crear_rect()
-rect4=muro.crear_rect() 
 #### tiempo ####
 timer = pygame.USEREVENT 
 pygame.time.set_timer(timer,10) 
 reloj = pygame.time.Clock()
+### aleatorio ###
+num_ramdom=int(random.randint(0,2))
+num_ramdom1=int(random.randint(0,4)) 
 
 pantalla= pygame.display.set_mode((ANCHO,ALTO))   
 pygame.display.set_caption("turbo revolution")  
 #### sound track ####  
 pygame.mixer.music.load("audios\\soundtrack.mp3") 
 pygame.mixer.music.play(-1) 
-pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.set_volume(0.4) 
 
 menu=True 
 while menu:
@@ -96,20 +90,26 @@ while menu:
             velocidad3[0]=random.randrange(0, ANCHO -TAMAÑO_AUTO[1] ,200) 
             velocidad4[0]=random.randrange(0, ANCHO -150,200 ) 
             velocidad4[0]=random.randrange(0, ANCHO -40,200 ) 
-            velocidad[1]=0
-            velocidad3[1]=0
+            velocidad[1]=0 
+            velocidad3[1]=0 
             velocidad4[1]=0 
             velocidad5[1]=0 
-        pantalla.blit(imagen_auto2,velocidad)  
-        pantalla.blit(imagen_auto3,velocidad3)  
-        pantalla.blit(imagen_muro,velocidad4) 
-        pantalla.blit(imagen_mancha,velocidad5) 
-        cantidad_vidas -= 1
+        
+        enemigos=auto2.crear_lista(num_ramdom,num_ramdom1)
+        for obstaculos in enemigos:
+            pantalla.blit(obstaculos["imagen"],posicion2)
+            pass 
+        
+        if auto2.actualizar_pantalla(enemigos,rect1) or auto3.actualizar_pantalla(enemigos,rect1) or muro.actualizar_pantalla(enemigos,rect1):
+            cantidad_vidas -=1 
+        elif mancha.actualizar_pantalla(enemigos,rect1): 
+            pass
+            #sprite 
         if cantidad_vidas == 0: 
             with sqlite3.connect("data.db") as conexion:
                 #### insertar datos #####
                     conexion.execute("insert into jugador(name,time,score)"
-                    "values (?,?,?)", ("?", 0,0)) 
+                    "values (?,?,?)", ("pepe", 0,0)) 
             try:
                     conexion.commit()# Actualiza los datos realmente en la tabla
             except Exception:
