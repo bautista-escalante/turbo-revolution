@@ -1,8 +1,6 @@
 import pygame
 import colores
 import sqlite3
-import sys
-from pygame.locals import *
 
 ANCHO_VENTANA=600  
 ALTO_VENTANA=600 

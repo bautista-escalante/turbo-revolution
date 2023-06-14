@@ -94,12 +94,12 @@ while menu:
             velocidad3[1]=0 
             velocidad4[1]=0 
             velocidad5[1]=0 
-        
+        score=0
+        time=0
         enemigos=auto2.crear_lista(num_ramdom,num_ramdom1)
         for obstaculos in enemigos:
-            pantalla.blit(obstaculos["imagen"],posicion2)
-            pass 
-        
+            pantalla.blit(obstaculos["imagen"],posicion2) 
+        #### coliciones #####
         if auto2.actualizar_pantalla(enemigos,rect1) or auto3.actualizar_pantalla(enemigos,rect1) or muro.actualizar_pantalla(enemigos,rect1):
             cantidad_vidas -=1 
         elif mancha.actualizar_pantalla(enemigos,rect1): 
@@ -108,17 +108,9 @@ while menu:
         if cantidad_vidas == 0: 
             with sqlite3.connect("data.db") as conexion:
                 #### insertar datos #####
-                    conexion.execute("insert into jugador(name,time,score)"
-                    "values (?,?,?)", ("pepe", 0,0)) 
+                    conexion.execute("UPDATE jugador SET score = ?, time=?",(score,time)) 
             try:
                     conexion.commit()# Actualiza los datos realmente en la tabla
-            except Exception:
-                    print("Error") 
-            try:
-                    #### imprimir en pantalla ####
-                    cursor=conexion.execute("SELECT * FROM jugador")
-                    for fila in cursor:
-                        print(fila) 
             except Exception:
                     print("Error") 
             cantidad_vidas= 3 
@@ -127,6 +119,3 @@ while menu:
         pygame.display.update()
         pygame.display.flip()
 pygame.quit() 
-
-
-

@@ -35,7 +35,14 @@ class Obstaculo:
             diccionario["imagen"] =imagen 
             diccionario["rect"] = imagen.get_rect()
         return diccionario 
-    
+    def crear_lista(self, num1, num2):
+        lista = []
+        for _ in range(num1):
+            diccionario = self.dic_obstaculos(num2)
+            diccionario["posicion"] = self.crear_posicion()
+            lista.append(diccionario)
+        return lista
+
     def crear_lista(self,num1,num2):
         lista=[]
         for i in self.dic_obstaculos(num1,num2):
@@ -99,7 +106,6 @@ class vida:
                 vida["visible"] = False
             elif colicion==False and vida["visible"] == True:
                 pantalla.blit(vida["imagen"],(0,30))
-
 
 
 
