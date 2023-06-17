@@ -1,4 +1,4 @@
-import pygame
+import pygame 
 
 ANCHO_VENTANA=600 
 ALTO_VENTANA=600
@@ -8,7 +8,7 @@ imagen=pygame.image.load("menu\\menu.png")
 imagen= pygame.transform.scale(imagen,(ALTO_VENTANA,ANCHO_VENTANA))
 
 pantalla=pygame.display.set_mode((ANCHO_VENTANA,ALTO_VENTANA)) 
-pygame.display.set_caption("menu principal")
+pygame.display.set_caption("menu principal") 
 
 bandera=True
 while bandera:  

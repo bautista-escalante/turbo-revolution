@@ -1,6 +1,7 @@
 import pygame
 import colores
 import sqlite3
+import sys 
 
 ANCHO_VENTANA=600  
 ALTO_VENTANA=600 
@@ -11,7 +12,6 @@ with sqlite3.connect("data.db") as conexion:
                         (
                         id integer primary key autoincrement,
                         name text,
-                        time real,
                         score real
                         )
                         ''' 

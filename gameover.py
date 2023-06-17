@@ -19,7 +19,7 @@ while bandera:
             bandera= False
         elif evento.type == pygame.KEYDOWN :
             if evento.key == pygame.K_RETURN:
-                import menu
+                import menu 
             elif evento.key == pygame.K_SPACE:
                 import score    
     
