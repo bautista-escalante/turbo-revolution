@@ -27,7 +27,7 @@ class Obstaculo:
     def actualizar(self, lista, pantalla, velocidad):
         for i in lista:
             i["rect"].y += velocidad
-            if i["rect"].y > pantalla.get_height():
+            if i["rect"].y > self.alto:
                 # Si el obstáculo sale de la pantalla, se reinicia en la posición inicial
                 i["rect"].y = 0
                 i["rect"].x = random.randint(0,self.ancho)
@@ -38,27 +38,49 @@ class Obstaculo:
         for i in lista: 
             colicion=rect.colliderect(i["rect"])
             personaje_rect=pygame.Rect(i["rect"])
-            pygame.draw.rect(pantalla, (0,0,0,128), personaje_rect)
+            pygame.draw.rect(pantalla, colores.BLACK, personaje_rect)
             if colicion:
                 i["rect"].y=1000
         return colicion
 
-
 class Moneda(pygame.sprite.Sprite):
-    def __init__(self,tamaño:list,imagen ) -> None: 
-        super().__init__() 
-        self.tamaño=tamaño 
-        self.image = pygame.image.load(imagen).convert() 
-        self.image.set_colorkey(colores.BLACK) 
-        self.rect = self.image.get_rect() 
+    def __init__(self, tamaño: list, lista_animacion) -> None:
+        super().__init__()
+        self.ancho = tamaño[0]
+        self.alto = tamaño[1]
+        self.contador_pasos = 0
+        self.lista = self.crear_lista(lista_animacion)
 
-    def update(self, ) -> None:
-        self.rect.y +=10
-        if self.rect.top>self.tamaño[1]: 
-            self.rect.bottom =0
-    
-    def cantidad(self,cantidad): 
+    def crear_lista(self, lista) -> list:
+        nueva_lista = []
+        for imagen in lista:
+            dic = {}
+            imagen = pygame.transform.scale(imagen, (self.ancho, self.alto))
+            dic["rect"] = pygame.Rect(random.randint(0, self.ancho), 0, self.ancho, self.alto)
+            dic["imagen"] = imagen
+            nueva_lista.append(dic)
+        return nueva_lista
+
+    def cantidad(self, cantidad) -> list:
+        lista = []
         for i in range(cantidad):
-            meteor = Moneda()
-            meteor.rect.x = random.randrange(900)
-            meteor.rect.y = random.randrange(600)
+            lista.extend(self.lista)
+        return lista
+
+    def mover(self, pantalla):
+        for i in self.lista:
+            i["rect"].y += 10
+            if i["rect"].y > self.alto:
+                i["rect"].y = 0
+                i["rect"].x = random.randint(0, self.ancho)
+            pantalla.blit(i["imagen"], i["rect"])
+        return self.lista
+
+    def animar(self, pantalla):
+        if self.contador_pasos >= len(self.lista):
+            self.contador_pasos = 0
+        pantalla.blit(self.lista[self.contador_pasos]["imagen"], self.lista[self.contador_pasos]["rect"])
+        self.contador_pasos += 1
+
+
+

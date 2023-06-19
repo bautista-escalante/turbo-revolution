@@ -1,9 +1,8 @@
 import pygame 
 import colores 
 from objetos import Obstaculo 
-import random 
+from objetos import Moneda
 import sqlite3
-#import funciones 
 
 #### "constantes" ###   
 ALTO=700 
@@ -18,6 +17,12 @@ score=0
 pygame.init()  
 pygame.mixer.init()
 
+lista_animacion=[pygame.image.load("sprites\\monedas\\1.png"),
+                 pygame.image.load("sprites\\monedas\\2.png"),
+                 pygame.image.load("sprites\\monedas\\3.png"),
+                 pygame.image.load("sprites\\monedas\\4.png"),
+                 pygame.image.load("sprites\\monedas\\5.png"),
+                 pygame.image.load("sprites\\monedas\\6.png")]
 auto1= pygame.image.load("imagen\\auto.png") 
 auto1= pygame.transform.scale(auto1,TAMAÑO_AUTO)
 imagen=pygame.image.load("imagen\\auto3.png")
@@ -26,18 +31,17 @@ imagen= pygame.transform.scale(imagen,TAMAÑO_AUTO)
 fuente= pygame.font.SysFont("arias",40) 
 #### objetos #### 
 auto2=Obstaculo(TAMAÑO_AUTO,ANCHO,ALTO,imagen ) 
+sprite=Moneda([40,40],lista_animacion)
 ##### cantidad de enemigos #### 
-vidas=3
-lista_enemigos=auto2.crear_lista(4) 
+barra_vida=300
+lista_enemigos=auto2.crear_lista(4)
 #### tiempo ####
 timer = pygame.USEREVENT 
 pygame.time.set_timer(timer,10) 
 reloj = pygame.time.Clock()
-### aleatorio ###
-num_ramdom=random.randint(0,2)
 
 pantalla= pygame.display.set_mode((ANCHO,ALTO))   
-pygame.display.set_caption("turbo revolution")  
+pygame.display.set_caption("turbo revolution")   
 #### sound track ####  
 pygame.mixer.music.load("audios\soundtrack.mp3") 
 pygame.mixer.music.play(-1) 
@@ -69,18 +73,20 @@ while menu:
         ### rect ###  
         rect1= pygame.Rect(posicion_auto,TAMAÑO_AUTO)
         personaje_rect=pygame.Rect(rect1)
-        pygame.draw.rect(pantalla, (0, 0, 0, 128), personaje_rect)
+        pygame.draw.rect(pantalla, colores.BLACK, personaje_rect)
         pantalla.blit(auto1,posicion_auto) 
-
+        sprite.animar(pantalla)
+        sprite.update()
+        sprite.mover(pantalla)
         #### coliciones #### 
         colicion=auto2.colicionar(lista_enemigos,rect1,pantalla)
-            #vidas=funciones.actualizar_pantalla(vidas,colicion,pantalla)
-            
-        auto2.actualizar(lista_enemigos,pantalla,6)
+        auto2.actualizar(lista_enemigos,pantalla,3)
+        #### barra de vida ####
+        pygame.draw.rect(pantalla, colores.GREEN1, (10,10, barra_vida, 20))
         if colicion:
-                vidas -=1 
-        print(vidas)
-        if vidas==0: 
+            barra_vida -=50
+        print(barra_vida)
+        if barra_vida==0: 
             #### game over #### 
             with sqlite3.connect("data.db") as conexion:
                 #### insertar datos #####
@@ -89,9 +95,7 @@ while menu:
                     conexion.commit()
             except Exception:
                     print("Error") 
-            
             import gameover  
-            
         pygame.display.update()
         pygame.display.flip()
 pygame.quit() 
