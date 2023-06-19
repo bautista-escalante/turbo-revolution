@@ -36,20 +36,19 @@ pygame.display.set_caption("menu principal")
 cuadro_texto_activo = False
 bandera=True
 while bandera: 
-        lista=  pygame.event.get()
-        for evento in lista:
-            if evento.type == pygame.QUIT:
-                bandera= False
-                pygame.quit()
-                sys.exit()
-            if evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_BACKSPACE:
+        lista=  pygame.event.get()  
+        for evento in lista: 
+            if evento.type == pygame.QUIT: 
+                bandera= False 
+                pygame.quit() 
+                sys.exit() 
+            if evento.type == pygame.KEYDOWN: 
+                if evento.key == pygame.K_BACKSPACE: 
                     ingreso = ingreso[0:-1] 
-                elif evento.key == pygame.K_RETURN:
-                    nombre_jugador= ingreso
-                    with sqlite3.connect("data.db") as conexion:
-                        sentencia = "UPDATE jugador SET name = ?"
-                        conexion.execute(sentencia, (ingreso,))
+                elif evento.key == pygame.K_RETURN: 
+                    nombre_jugador= ingreso 
+                    with sqlite3.connect("data.db") as conexion: 
+                        conexion.execute("UPDATE jugador SET name = ?", (ingreso,))
                         conexion.commit()
                         print("Nombre del jugador ", ingreso)
                     import principal

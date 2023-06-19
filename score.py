@@ -17,7 +17,7 @@ ruta_fuente = os.path.join('mega pixel', 'C:\\programacion I\\turbo revolution\\
 fuente = pygame.font.Font(ruta_fuente, 30)
 
 texto = fuente.render("press enter to return to the menu", True, colores.YELLOW1)  
-dato = fuente.render("nombres  tiempos  puntajes", True, colores.YELLOW1)  
+dato = fuente.render("nombres  puntajes", True, colores.YELLOW1)  
 
 with sqlite3.connect("data.db") as conexion: 
     try: 
@@ -31,12 +31,12 @@ with sqlite3.connect("data.db") as conexion:
 
 bandera=True
 while bandera: 
+    pantalla.blit(imagen,(0,0)) 
     for  fila in datos: 
         dato = fuente.render(str(fila), True, colores.YELLOW1) 
         pantalla.blit(dato, (100,375)) 
-    pantalla.blit(imagen,(0,0)) 
     ##### puntajes #### 
-    score = fuente.render("pepe", True, colores.YELLOW1)
+    score = fuente.render("", True, colores.YELLOW1)
     lista = pygame.event.get()
     for evento in lista:
         if evento.type == pygame.QUIT:

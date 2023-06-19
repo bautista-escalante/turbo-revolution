@@ -1,74 +1,64 @@
 import pygame
-import random 
- 
+import random
+import colores
+  
 class Obstaculo:
-    def __init__(self,tamaño:tuple,ancho:int,alto:int,velocidad:int,cantidad): 
-        self.tamaño=tamaño 
-        self.ancho=ancho 
-        self.alto=alto 
-        self.posicion= self.crear_posicion()  
-        self.velocidad=self.crear_movimiento(velocidad,self.crear_lista(cantidad)) 
+    def __init__(self, tamaño: tuple, ancho: int, alto: int,imagen):
+        self.tamaño=tamaño
+        self.ancho=ancho
+        self.alto=alto
+        self.imagen=imagen
 
-    def crear_posicion(self)->list: 
-        x= random.randrange(0, self.ancho - self.tamaño[0],200) 
-        return [x,0] 
-
-    def crear_movimiento(self,velocidad,lista)->list:  
-        for rect in lista: 
-           rect["rect"].y += velocidad  
-        self.posicion[1] = self.posicion[1]+1 
-
-    def dic_obstaculos(self,cantidad):
-        imagen= pygame.image.load("imagen\\auto2.png" ) 
-        imagen = pygame.transform.scale(imagen, (80,80)) 
-        diccionario = {}
-        for i in range(cantidad): 
-            diccionario["imagen"] =imagen 
-            diccionario["rect"] = imagen.get_rect()
-            diccionario["posicion"]=self.crear_posicion()
-        return diccionario    
-
-    def crear_lista(self,cantidad):
-        lista=[] 
-        lista.append(self.dic_obstaculos(cantidad)) 
-        return lista 
+    def crear_obstaculo(self,posicion:tuple)->dict:
+        rect = self.imagen.get_rect()
+        rect.x=posicion[0]
+        rect.y=posicion[1]
+        dic = {}
+        dic["imagen"] = self.imagen
+        dic["rect"] = rect
+        return dic
     
-    def actializar(self,pantalla,cantidad):
-        movimiento=self.crear_movimiento(self.velocidad,self.velocidad) 
-        lista=self.crear_lista(cantidad)
-        for i in lista: 
-            pantalla.blit(i["imagen"],i["rect"])
-            self.crear_movimiento(3)
+    def crear_lista(self,cantidad):
+        lista=[]
+        for i in range(cantidad):
+            lista.append(self.crear_obstaculo((random.randrange(0,self.ancho)+i*100,0)))
+        return lista
 
-
-""" def colicionar(self,lista:list,rect_auto)->bool:
+    def actualizar(self, lista, pantalla, velocidad):
         for i in lista:
-            if  rect_auto.colliderect(i["rect"]):
-                return True
-            else:
-                return False"""
+            i["rect"].y += velocidad
+            if i["rect"].y > pantalla.get_height():
+                # Si el obstáculo sale de la pantalla, se reinicia en la posición inicial
+                i["rect"].y = 0
+                i["rect"].x = random.randint(0,self.ancho)
+            pantalla.blit(i["imagen"], i["rect"])
+        return lista
 
-class sprite(pygame.sprite.Sprite) :
-    def __init__(self,imagen,alto):
-        super().__init__()
-        self.imagen = pygame.image.load(imagen)
-        self.imagen.set_clip(pygame.Rect(0,0,40,40))
-        self.imagen = self.imagen.subsurface( self.imagen.set_clip())
-        self.rect = self.imagen.get_rect()
-        self.marco = 0
-        self.estado = {0:{0,40,52,76},1:{40,40,52,76},2:{80,40,52,76},3:{80,40,52,76},4:{80,80,52,76},5:{80,120,52,76}}
+    def colicionar(self,lista,rect,pantalla,)->bool:
+        for i in lista: 
+            colicion=rect.colliderect(i["rect"])
+            personaje_rect=pygame.Rect(i["rect"])
+            pygame.draw.rect(pantalla, (0,0,0,128), personaje_rect)
+            if colicion:
+                i["rect"].y=1000
+        return colicion
 
-    def get_frame(self,frame_set):
-        self.marco +=1
-        if self.marco> (len(frame_set)):
-            self.marco=0
-        return frame_set[self.marco]
 
-    def update(self) -> None:
+class Moneda(pygame.sprite.Sprite):
+    def __init__(self,tamaño:list,imagen ) -> None: 
+        super().__init__() 
+        self.tamaño=tamaño 
+        self.image = pygame.image.load(imagen).convert() 
+        self.image.set_colorkey(colores.BLACK) 
+        self.rect = self.image.get_rect() 
+
+    def update(self, ) -> None:
         self.rect.y +=10
-        if self.rect> self.alto:
-            self.rect.botton=0
-
-
-
-
+        if self.rect.top>self.tamaño[1]: 
+            self.rect.bottom =0
+    
+    def cantidad(self,cantidad): 
+        for i in range(cantidad):
+            meteor = Moneda()
+            meteor.rect.x = random.randrange(900)
+            meteor.rect.y = random.randrange(600)

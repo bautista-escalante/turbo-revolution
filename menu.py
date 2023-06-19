@@ -1,3 +1,4 @@
+
 import pygame 
 
 ANCHO_VENTANA=600 

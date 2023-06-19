@@ -24,7 +24,7 @@ def actualizar_pantalla(lista,colicion:bool, pantalla)->None:
         elif colicion==False and vida["visible"] == True:
             pantalla.blit(vida["imagen"],(x,0))
             x +=30
- 
+
 
 
 
