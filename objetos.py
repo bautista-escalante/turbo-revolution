@@ -43,9 +43,8 @@ class Obstaculo:
                 i["rect"].y=1000
         return colicion
 
-class Moneda(pygame.sprite.Sprite):
+class Explosion():
     def __init__(self, tamaño: list, lista_animacion) -> None:
-        super().__init__()
         self.ancho = tamaño[0]
         self.alto = tamaño[1]
         self.contador_pasos = 0
@@ -56,31 +55,16 @@ class Moneda(pygame.sprite.Sprite):
         for imagen in lista:
             dic = {}
             imagen = pygame.transform.scale(imagen, (self.ancho, self.alto))
-            dic["rect"] = pygame.Rect(random.randint(0, self.ancho), 0, self.ancho, self.alto)
             dic["imagen"] = imagen
             nueva_lista.append(dic)
-        return nueva_lista
+        return nueva_lista 
 
-    def cantidad(self, cantidad) -> list:
-        lista = []
-        for i in range(cantidad):
-            lista.extend(self.lista)
-        return lista
-
-    def mover(self, pantalla):
-        for i in self.lista:
-            i["rect"].y += 10
-            if i["rect"].y > self.alto:
-                i["rect"].y = 0
-                i["rect"].x = random.randint(0, self.ancho)
-            pantalla.blit(i["imagen"], i["rect"])
-        return self.lista
-
-    def animar(self, pantalla):
+    def animar(self, pantalla, posicion):
         if self.contador_pasos >= len(self.lista):
             self.contador_pasos = 0
-        pantalla.blit(self.lista[self.contador_pasos]["imagen"], self.lista[self.contador_pasos]["rect"])
+        pantalla.blit(self.lista[self.contador_pasos]["imagen"], posicion)
         self.contador_pasos += 1
+
 
 
 
