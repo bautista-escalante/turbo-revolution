@@ -1,7 +1,6 @@
 import pygame
 import colores
 import sqlite3
-import sys 
 
 ANCHO_VENTANA=600  
 ALTO_VENTANA=600 
@@ -41,7 +40,6 @@ while bandera:
             if evento.type == pygame.QUIT: 
                 bandera= False 
                 pygame.quit() 
-                sys.exit() 
             if evento.type == pygame.KEYDOWN: 
                 if evento.key == pygame.K_BACKSPACE: 
                     ingreso = ingreso[0:-1] 
@@ -51,7 +49,7 @@ while bandera:
                         conexion.execute("INSERT INTO jugador (name, score) VALUES (?, 0)", (nombre_jugador,))
                         conexion.commit()
                         print("Nombre del jugador ", ingreso)
-                    import principal
+                    import principal 
                 else:
                     ingreso += evento.unicode 
 

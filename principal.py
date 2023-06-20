@@ -3,7 +3,7 @@ import colores
 from objetos import Obstaculo 
 from objetos import Explosion
 import sqlite3 
-import os
+import os 
 
 #### "constantes" ###   
 ALTO=700 
@@ -42,10 +42,10 @@ reloj = pygame.time.Clock()
 pantalla= pygame.display.set_mode((ANCHO,ALTO))   
 pygame.display.set_caption("turbo revolution")   
 #### sound track ####  
-pygame.mixer.music.load("audios\soundtrack.mp3") 
+pygame.mixer.music.load("audios\\soundtrack.mp3") 
 pygame.mixer.music.play(-1) 
 pygame.mixer.music.set_volume(0.4) 
-bandera=True
+
 menu=True 
 while menu:
     reloj.tick(FPS)
@@ -74,12 +74,12 @@ while menu:
         #### score ####
         texto= "score: "+str(score)
         dato = fuente.render(texto, True, colores.YELLOW1)
+        pantalla.blit(dato,(40,40)) 
         ### rect ###  
         rect1= pygame.Rect(posicion_auto,TAMAÑO_AUTO)
         personaje_rect=pygame.Rect(rect1)
         pygame.draw.rect(pantalla, colores.BLACK, personaje_rect)
         pantalla.blit(auto1,posicion_auto)
-        pantalla.blit(dato,(40,40)) 
         #### coliciones #### 
         colicion=auto2.colicionar(lista_enemigos,rect1,pantalla)
         auto2.actualizar(lista_enemigos,pantalla,3)

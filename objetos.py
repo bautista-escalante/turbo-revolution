@@ -1,7 +1,7 @@
 import pygame
 import random
 import colores
-  
+
 class Obstaculo:
     def __init__(self, tamaño: tuple, ancho: int, alto: int,imagen):
         self.tamaño=tamaño
