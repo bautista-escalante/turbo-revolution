@@ -48,7 +48,7 @@ while bandera:
                 elif evento.key == pygame.K_RETURN: 
                     nombre_jugador= ingreso 
                     with sqlite3.connect("data.db") as conexion: 
-                        conexion.execute("UPDATE jugador SET name = ?", (ingreso,))
+                        conexion.execute("INSERT INTO jugador (name, score) VALUES (?, 0)", (nombre_jugador,))
                         conexion.commit()
                         print("Nombre del jugador ", ingreso)
                     import principal

@@ -12,8 +12,7 @@ TAMAÑO_AUTO=(80,80)
 posicion_auto=[200,550] 
 linea1=(255,0,5,ALTO)
 linea2=(245,0,5,ALTO)
-FPS=100
-score=0
+FPS=30
 
 pygame.init()  
 pygame.mixer.init()
@@ -92,8 +91,12 @@ while menu:
         if barra_vida==0: 
             #### game over #### 
             with sqlite3.connect("data.db") as conexion: 
+                cursor = conexion.execute("SELECT name FROM jugador")
+                datos = cursor.fetchall()
+                for  fila in datos:
+                    nombre="{0}".format(fila[0])
                 #### insertar datos #####
-                    conexion.execute("UPDATE jugador SET score = ?",(score,)) 
+                conexion.execute("INSERT INTO jugador (name, score) VALUES (?, ?)",(nombre,score)) 
             try:
                     conexion.commit()
             except Exception:
