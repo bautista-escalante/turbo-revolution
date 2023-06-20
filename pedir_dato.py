@@ -17,7 +17,7 @@ with sqlite3.connect("data.db") as conexion:
                         ''' 
                     conexion.execute(sentencia)
                     print("Se creo la tabla jugador")
-                except sqlite3.OperationalError: 
+                except sqlite3.OperationalError:
                     print("La tabla jugador ya existe")
 
 pygame.init()

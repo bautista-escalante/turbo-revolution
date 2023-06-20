@@ -2,7 +2,8 @@ import pygame
 import colores 
 from objetos import Obstaculo 
 from objetos import Explosion
-import sqlite3
+import sqlite3 
+import os
 
 #### "constantes" ###   
 ALTO=700 
@@ -11,7 +12,7 @@ TAMAÑO_AUTO=(80,80)
 posicion_auto=[200,550] 
 linea1=(255,0,5,ALTO)
 linea2=(245,0,5,ALTO)
-FPS=60
+FPS=100
 score=0
 
 pygame.init()  
@@ -26,12 +27,13 @@ auto1= pygame.transform.scale(auto1,TAMAÑO_AUTO)
 imagen=pygame.image.load("imagen\\auto3.png")
 imagen= pygame.transform.scale(imagen,TAMAÑO_AUTO)
 #### texto #### 
-fuente= pygame.font.SysFont("arias",40) 
+ruta_fuente = os.path.join('mega pixel','C:\\programacion I\\turbo revolution\\mega pixel\\00TT.TTF')
+fuente = pygame.font.Font(ruta_fuente, 30)
 #### objetos #### 
 auto2=Obstaculo(TAMAÑO_AUTO,ANCHO,ALTO,imagen ) 
 sprite=Explosion([70,70],lista_animacion)
 ##### cantidad de enemigos #### 
-barra_vida=300
+barra_vida=300 
 lista_enemigos=auto2.crear_lista(4)
 #### tiempo ####
 timer = pygame.USEREVENT 
@@ -48,6 +50,8 @@ bandera=True
 menu=True 
 while menu:
     reloj.tick(FPS)
+    tiempo_actual = pygame.time.get_ticks()
+    score=round(tiempo_actual/1000)
     lista = pygame.event.get() 
     for evento in lista:
         if evento.type== pygame.QUIT: 
@@ -68,11 +72,15 @@ while menu:
         pantalla.fill(colores.BLACK) 
         pygame.draw.rect(pantalla,colores.YELLOW3,linea1) 
         pygame.draw.rect(pantalla,colores.YELLOW3,linea2) 
+        #### score ####
+        texto= "score: "+str(score)
+        dato = fuente.render(texto, True, colores.YELLOW1)
         ### rect ###  
         rect1= pygame.Rect(posicion_auto,TAMAÑO_AUTO)
         personaje_rect=pygame.Rect(rect1)
         pygame.draw.rect(pantalla, colores.BLACK, personaje_rect)
-        pantalla.blit(auto1,posicion_auto) 
+        pantalla.blit(auto1,posicion_auto)
+        pantalla.blit(dato,(40,40)) 
         #### coliciones #### 
         colicion=auto2.colicionar(lista_enemigos,rect1,pantalla)
         auto2.actualizar(lista_enemigos,pantalla,3)
