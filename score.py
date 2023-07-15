@@ -2,6 +2,7 @@ import pygame
 import os
 import colores
 import sqlite3 
+from constantes import *
 
 ANCHO_VENTANA=600
 ALTO_VENTANA=600 
@@ -24,7 +25,7 @@ with sqlite3.connect("data.db") as conexion:
         #### imprimir en pantalla #### 
         cursor=conexion.execute("SELECT * FROM jugador") 
         datos = cursor.fetchall()
-        #datos.sort(reverse=True)
+        
         for i in range(len(datos)):
             for j in range(len(datos)-1):
                 if  datos[i][2]>datos[j][2] :

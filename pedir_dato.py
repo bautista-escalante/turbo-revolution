@@ -1,9 +1,8 @@
 import pygame
 import colores
 import sqlite3
+from constantes import *
 
-ANCHO_VENTANA=600  
-ALTO_VENTANA=600 
 with sqlite3.connect("data.db") as conexion:
                  #### crear la tabla ####
                 try:

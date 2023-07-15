@@ -1,18 +1,11 @@
 import pygame 
 import colores 
-from objetos import Obstaculo 
-from objetos import Explosion
+from constantes import *
+from objeto_1 import Obstaculo 
+from objeto_2 import Explosion
 import sqlite3 
 import os 
 
-#### "constantes" ###   
-ALTO=700 
-ANCHO=500 
-TAMAÑO_AUTO=(80,80)
-posicion_auto=[200,550] 
-linea1=(255,0,5,ALTO)
-linea2=(245,0,5,ALTO)
-FPS=30
 
 pygame.init()  
 pygame.mixer.init()

@@ -21,7 +21,7 @@ class Obstaculo:
     def crear_lista(self,cantidad):
         lista=[]
         for i in range(cantidad):
-            lista.append(self.crear_obstaculo((random.randrange(0,self.ancho)+i*100,0)))
+            lista.append(self.crear_obstaculo((random.randrange(0,self.ancho)+i*300,0)))
         return lista
 
     def actualizar(self, lista, pantalla, velocidad):
@@ -42,28 +42,6 @@ class Obstaculo:
             if colicion:
                 i["rect"].y=1000
         return colicion
-
-class Explosion():
-    def __init__(self, tamaño: list, lista_animacion) -> None:
-        self.ancho = tamaño[0]
-        self.alto = tamaño[1]
-        self.contador_pasos = 0
-        self.lista = self.crear_lista(lista_animacion)
-
-    def crear_lista(self, lista) -> list:
-        nueva_lista = []
-        for imagen in lista:
-            dic = {}
-            imagen = pygame.transform.scale(imagen, (self.ancho, self.alto))
-            dic["imagen"] = imagen
-            nueva_lista.append(dic)
-        return nueva_lista 
-
-    def animar(self, pantalla, posicion):
-        if self.contador_pasos >= len(self.lista):
-            self.contador_pasos = 0
-        pantalla.blit(self.lista[self.contador_pasos]["imagen"], posicion)
-        self.contador_pasos += 1
 
 
 

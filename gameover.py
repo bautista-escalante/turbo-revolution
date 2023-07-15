@@ -1,7 +1,5 @@
 import pygame 
-
-ANCHO_VENTANA=600
-ALTO_VENTANA=600 
+from constantes import *
 
 pygame.init()
 imagen=pygame.image.load("menu\\game over.png") 
