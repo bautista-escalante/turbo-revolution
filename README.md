@@ -13,6 +13,7 @@ segundo parcial laboratorio
 
 ### inicio 
 aca el usuario puede ver la pantalla de carga y presionar enter para iniciar
+
 ![menu principal 23_7_2023 13_24_30](https://github.com/bautista-escalante/turbo-revolution/assets/123372673/40e9405a-4dcc-42bf-9ea7-9bf7a8e93380)
 
 ```python
@@ -42,6 +43,7 @@ pygame.quit()
 
 ### pedir nombre
 aca el usuario debe ingresar su nombre antes de empezar a jugar, este es guardado en la base de datos
+
 ![menu principal 23_7_2023 14_52_02](https://github.com/bautista-escalante/turbo-revolution/assets/123372673/e0e8a1de-1206-453d-b674-ea6e2aa5a02e)
 
 ```python
@@ -302,6 +304,7 @@ pygame.quit()
 ### game over 
 al perder se guarda el score en la base de datos y se dirige a el modulo gameover
 al usuario se le permite volver a jugar o ver su score comparado con el resto
+
 ![game over 23_7_2023 15_35_35](https://github.com/bautista-escalante/turbo-revolution/assets/123372673/b43639a7-6d1b-4df6-bd7c-4bc369f95834)
 
 ``` python
@@ -333,6 +336,7 @@ pygame.quit()
 ```
 ### score
 los scores de los mejores 5 jugadores
+
 ![menu principal 23_7_2023 15_38_48](https://github.com/bautista-escalante/turbo-revolution/assets/123372673/dadd6c55-3247-460b-b95a-e02766be1c2e)
 
 ```python
